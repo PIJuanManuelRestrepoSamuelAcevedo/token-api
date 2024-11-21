@@ -5,10 +5,7 @@ import com.udea.proyecto.integrador.Service.EthereumService;
 import com.udea.proyecto.integrador.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -25,6 +22,21 @@ public class TokenController {
     @GetMapping("/blockNumber")
     public String getBlockNumber() throws IOException {
         return ethereumService.getBlockNumber();
+    }
+
+    @GetMapping("/balance/{address}")
+    public String getUserBalance(@PathVariable String address) throws Exception {
+        return tokenService.getUserBalanceFromAddress(address);
+    }
+
+    @PutMapping("/update_buyer_balance/{address}")
+    public Boolean updateBuyerBalance(@PathVariable String address, @RequestParam String amount) {
+        return tokenService.updateBuyerBalanceFromAddress(address, amount);
+    }
+
+    @PutMapping("/update_seller_balance/{address}")
+    public Boolean updateSellerBalance(@PathVariable String address, @RequestParam String amount) {
+        return tokenService.updateSellerBalanceFromAddress(address, amount);
     }
 
     @GetMapping
